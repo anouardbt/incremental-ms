@@ -4,7 +4,7 @@
 WITH server_max_times AS (
   SELECT 
     server_source,
-    MAX(timemsc) as max_time
+    MAX(timemsc) as max_time --- probably need to cast this as date or to hour level. 
   FROM {{ ref('inter_deals') }}
   GROUP BY server_source
 ),
