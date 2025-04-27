@@ -1,0 +1,28 @@
+version: 2
+
+sources:
+  - name: raw_data
+    database: "{{ env_var('DBT_DATABASE', target.database) }}"
+    schema: raw_data
+    tables:
+      - name: p1_deals
+        description: "Raw deals data from server p1"
+        columns:
+          - name: deal_id
+            description: "Unique identifier for the deal"
+          - name: timemsc
+            description: "Timestamp of the deal"
+      - name: p2_deals
+        description: "Raw deals data from server p2"
+        columns:
+          - name: deal_id
+            description: "Unique identifier for the deal"
+          - name: timemsc
+            description: "Timestamp of the deal"
+      - name: p3_deals
+        description: "Raw deals data from server p3"
+        columns:
+          - name: deal_id
+            description: "Unique identifier for the deal"
+          - name: timemsc
+            description: "Timestamp of the deal" 
