@@ -18,6 +18,51 @@ We provide two different ways to check server synchronization:
    - Good for dashboards and alerting
    - Run with: `dbt run --models server_sync_check`
 
+## Running as Separate Jobs
+
+### Test Job
+
+To run just the sync test as a standalone job:
+
+```bash
+# Run only the server sync test
+dbt test --models test_servers_exact_sync
+
+# Run as part of a larger test suite
+dbt test --models tag:server_sync
+```
+
+### Monitoring Job
+
+To run the monitoring model as a scheduled job:
+
+```bash
+# Run only the server sync monitoring model
+dbt run --models server_sync_check
+
+# Include with other monitoring models
+dbt run --models +server_sync_check
+```
+
+### Production Workflow Example
+
+Here's how you might set up these jobs in production:
+
+1. **After Data Load Job**:
+   ```bash
+   # First run the incremental loads
+   dbt run --models stg_*_deals inter_deals
+   
+   # Then check if servers are in sync
+   dbt test --models test_servers_exact_sync
+   ```
+
+2. **Daily Monitoring Job**:
+   ```bash
+   # Run daily to keep track of sync status over time
+   dbt run --models server_sync_check
+   ```
+
 ## server_sync_check
 
 The `server_sync_check` model verifies if all servers have exactly the same maximum timestamp.
